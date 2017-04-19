@@ -26,11 +26,33 @@ exports.initialize = function(pathsObj) {
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(callback) {
+  fs.readFile(exports.paths.list, (err, data) => {
+    if (err) {throw err;}
+    
+    if (callback) {
+      callback(data.toString().split('\n'));
+    }
+  });
   // use node fs in some fashion to read the files from archive sites
   // apply the callback on those results
 };
 
 exports.isUrlInList = function(url, callback) {
+  fs.stat(exports.paths.list, (err, url) => {
+    if (err) {
+      throw err;
+    } 
+
+    if (callback) {
+      url ? callback(url) : false;
+      // callback()
+      // console.log("--------------------", url);
+    }
+
+
+  });
+
+
   // take in the url.
   // check if the url exists in the list
     // if it does
