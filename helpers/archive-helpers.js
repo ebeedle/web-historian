@@ -26,16 +26,33 @@ exports.initialize = function(pathsObj) {
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(callback) {
+  // use node fs in some fashion to read the files from archive sites
+  // apply the callback on those results
 };
 
 exports.isUrlInList = function(url, callback) {
+  // take in the url.
+  // check if the url exists in the list
+    // if it does
+      // return the url with the callbackc applied 
+      // also do that error thing
 };
 
 exports.addUrlToList = function(url, callback) {
+  // take in a url 
+  // use FS write to write the file to the list or archived sites.
+  // apply the callback to the url 
 };
 
 exports.isUrlArchived = function(url, callback) {
+  // take a url 
+  // check if it is archived
+    // if it is
+      // return true
+    // else return false
 };
 
 exports.downloadUrls = function(urls) {
+  // take a list of urls
+  // use fs to read all the urls and return them 
 };
