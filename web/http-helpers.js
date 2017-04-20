@@ -11,18 +11,18 @@ exports.headers = {
 };
 
 exports.serveAssets = function(res, asset, callback) {
-  var file = path.join(archive.paths.siteAssets, '../public/index.html');
+  // var file = path.join(archive.paths.siteAssets, '../public/index.html');
   
-  fs.readFile(file, (err, data) => {
-    if (err) {
-      console.error(err);
-    }
+  // fs.readFile(file, (err, data) => {
+  //   if (err) {
+  //     console.error(err);
+  //   }
     
-    if (callback) {
-      callback(data.toString());
-    }
-  });
-  res.end();
+  //   if (callback) {
+  //     callback(data.toString());
+  //   }
+  // });
+  // res.end('sldkfjd');
   // console.log('RES', res);
   // console.log('asset', asset);
   // console.log('cb', callback);

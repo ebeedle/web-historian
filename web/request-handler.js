@@ -15,17 +15,38 @@ var sendResponse = function(response, data, statusCode) {
 exports.handleRequest = function (req, res) {
   // var urlPath = url.path();
   // var file = path.join(archive.paths.siteAssets, '../public/index.html')
-  // console.log('REQUEST URL----------', req.url)
-  if (req.method === 'GET') {
+  // console.log(typeof req.method)
+  console.log('Request type is', req.method, ' and the req URL is ', req.url);
 
-    helpers.serveAssets(res, req.url, (err, data) => {
-      if (err) {
-        console.error(err);
-      } else {
-        sendResponse(res, data);
-      }
+  if (req.method === 'GET' ) {
+    if (req.url === '/') {  
+      fs.readFile(__dirname + '/public/index.html', function(err, data) {
+        if (err) {
+          throw err;
+        }
+        res.writeHead(200, {'Content-type': 'text/html'});
+        // res.write(data);
+        res.end(data.toString());
+      });
+      // helpers.serveAssets(res, req.url, (err, data) => {
+      //   if (err) {
+      //     console.error(err);
+      //   } else {
+      //     console.log('---------------ABOUT TO SEND RESPONSE')
+      //     sendResponse(res, data);
+      //   }
+      // });
+    } 
+  }
+
+  if (req.method ==='POST') {
+    req.on('data', data => {
+      archive.addUrlToList(data.toString().slice(4) + '\n', (url) => {
+        res.writeHead(302, {'Content-type': 'text/html'});
+        res.end(url);
+      });
     });
-
+    // res.end('posted yo') 
   }
   // console.log(file);
   // var html;
@@ -41,6 +62,6 @@ exports.handleRequest = function (req, res) {
   //   }
   // });
 
-
+// console.log('sldkfjsdkjfl');
   // res.end('do something!');
 };

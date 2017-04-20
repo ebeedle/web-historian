@@ -35,36 +35,20 @@ exports.readListOfUrls = function(callback) {
       callback(data.toString().split('\n'));
     }
   });
-  // use node fs in some fashion to read the files from archive sites
-  // apply the callback on those results
 };
 
 exports.isUrlInList = function(url, callback) {
-
-  // _.each(exports.paths.list, (urls) => {
-  //   fs.exists(urls, (url, err) => {
-  //     if (err) {
-  //       throw err;
-  //     } 
-  //     url ? callback(url) : false;
-  //   });
-    
-  // });
-
-
-exports.readListOfUrls(sites => {
-  var found = _.any(sites, site => {
-    return site.match(url);
-  })
-  callback(found)
-})
+  exports.readListOfUrls(sites => {
+    var found = _.any(sites, site => {
+      return site.match(url);
+    });
+    callback(found);
+  });
 
 };
 
 exports.addUrlToList = function(url, callback) {
-  // take in a url 
-  // use FS write to write the file to the list or archived sites.
-  // apply the callback to the url 
+
   fs.writeFile(exports.paths.list, url, err => {
     if (err) {
       throw err;
@@ -72,16 +56,6 @@ exports.addUrlToList = function(url, callback) {
       callback(url);
     }
   });
-
-
-/*
-    (err, url) => {
-    if (err) {
-      throw err;
-    }
-    console.log('MESSAGE IS ADDED---------');
-  })
-  */
 };
 
 exports.isUrlArchived = function(url, callback) {
@@ -89,33 +63,26 @@ exports.isUrlArchived = function(url, callback) {
 
   fs.exists(sitePath, exists => {
     callback(exists);
-  })
+  });
 
-  // take a url 
-  // check if it is archived
-    // if it is
-      // return true
-    // else return false
 };
 
 exports.downloadUrls = function(urls) {
   fs.readdir(exports.paths.archivedSites, (err, data) => {
     if (err) {
-      throw err
+      throw err;
     }
     var dataArr = data.toString().split('/n');
     for (var i = 0; i < urls.length; i++) {
-      if (!(dataArr.filter(el => el === urls[i]) > 0)) {
+      if (!(dataArr.filter(url => url === urls[i]) > 0)) {
         fs.writeFile(exports.paths.archivedSites + '/' + urls[i], (err, data) => {
           if (err) {
-            throw err
+            throw err;
           }
         });
       }
     }
 
-  })
+  });
 
-  // take a list of urls
-  // use fs to read all the urls and return them 
 };
