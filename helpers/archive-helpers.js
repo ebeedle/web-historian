@@ -41,15 +41,23 @@ exports.readListOfUrls = function(callback) {
 
 exports.isUrlInList = function(url, callback) {
 
-  _.each(exports.paths.list, (urls) => {
-    fs.exists(urls, (url, err) => {
-      if (err) {
-        throw err;
-      } 
-      url ? callback(url) : false;
-    });
+  // _.each(exports.paths.list, (urls) => {
+  //   fs.exists(urls, (url, err) => {
+  //     if (err) {
+  //       throw err;
+  //     } 
+  //     url ? callback(url) : false;
+  //   });
     
-  });
+  // });
+
+
+exports.readListOfUrls(sites => {
+  var found = _.any(sites, site => {
+    return site.match(url);
+  })
+  callback(found)
+})
 
 };
 
@@ -77,6 +85,12 @@ exports.addUrlToList = function(url, callback) {
 };
 
 exports.isUrlArchived = function(url, callback) {
+  var sitePath = path.join(exports.paths.archivedSites, url);
+
+  fs.exists(sitePath, exists => {
+    callback(exists);
+  })
+
   // take a url 
   // check if it is archived
     // if it is
@@ -85,6 +99,23 @@ exports.isUrlArchived = function(url, callback) {
 };
 
 exports.downloadUrls = function(urls) {
+  fs.readdir(exports.paths.archivedSites, (err, data) => {
+    if (err) {
+      throw err
+    }
+    var dataArr = data.toString().split('/n');
+    for (var i = 0; i < urls.length; i++) {
+      if (!(dataArr.filter(el => el === urls[i]) > 0)) {
+        fs.writeFile(exports.paths.archivedSites + '/' + urls[i], (err, data) => {
+          if (err) {
+            throw err
+          }
+        });
+      }
+    }
+
+  })
+
   // take a list of urls
   // use fs to read all the urls and return them 
 };
