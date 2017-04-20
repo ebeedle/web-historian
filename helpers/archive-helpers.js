@@ -27,7 +27,9 @@ exports.initialize = function(pathsObj) {
 
 exports.readListOfUrls = function(callback) {
   fs.readFile(exports.paths.list, (err, data) => {
-    if (err) {throw err;}
+    if (err) {
+      throw err;
+    }
     
     if (callback) {
       callback(data.toString().split('\n'));
@@ -38,32 +40,40 @@ exports.readListOfUrls = function(callback) {
 };
 
 exports.isUrlInList = function(url, callback) {
-  fs.stat(exports.paths.list, (err, url) => {
-    if (err) {
-      throw err;
-    } 
 
-    if (callback) {
+  _.each(exports.paths.list, (urls) => {
+    fs.exists(urls, (url, err) => {
+      if (err) {
+        throw err;
+      } 
       url ? callback(url) : false;
-      // callback()
-      // console.log("--------------------", url);
-    }
-
-
+    });
+    
   });
 
-
-  // take in the url.
-  // check if the url exists in the list
-    // if it does
-      // return the url with the callbackc applied 
-      // also do that error thing
 };
 
 exports.addUrlToList = function(url, callback) {
   // take in a url 
   // use FS write to write the file to the list or archived sites.
   // apply the callback to the url 
+  fs.writeFile(exports.paths.list, url, err => {
+    if (err) {
+      throw err;
+    } else {
+      callback(url);
+    }
+  });
+
+
+/*
+    (err, url) => {
+    if (err) {
+      throw err;
+    }
+    console.log('MESSAGE IS ADDED---------');
+  })
+  */
 };
 
 exports.isUrlArchived = function(url, callback) {
