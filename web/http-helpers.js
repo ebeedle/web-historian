@@ -11,7 +11,22 @@ exports.headers = {
 };
 
 exports.serveAssets = function(res, asset, callback) {
-  // Write some code here that helps serve up your static files!
+  var file = path.join(archive.paths.siteAssets, '../public/index.html');
+  
+  fs.readFile(file, (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    
+    if (callback) {
+      callback(data.toString());
+    }
+  });
+  res.end();
+  // console.log('RES', res);
+  // console.log('asset', asset);
+  // console.log('cb', callback);
+  // // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...),
   // css, or anything that doesn't change often.)
 };

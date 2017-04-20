@@ -21,7 +21,7 @@ exports.initialize = function(pathsObj) {
     exports.paths[type] = path;
   });
 };
-
+  
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
