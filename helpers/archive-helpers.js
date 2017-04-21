@@ -49,7 +49,7 @@ exports.isUrlInList = function(url, callback) {
 
 exports.addUrlToList = function(url, callback) {
 
-  fs.writeFile(exports.paths.list, url, err => {
+  fs.appendFile(exports.paths.list, url, err => {
     if (err) {
       throw err;
     } else {
